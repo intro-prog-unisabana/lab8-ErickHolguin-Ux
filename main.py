@@ -6,23 +6,59 @@ import sys
 from todo_manager import read_todo_file, write_todo_file
 
 def main():
-   
+    """sin argumentos"""
     if len(sys.argv) < 2:
         print("Insufficient arguments provided!")
         return
 
-    args = sys.argv[1:]
+    """Adyuda"""
+    if sys.argv[1] == "--help":
+        print("Usage: python main.py <file_path> <command> [arguments]...")
+        return
 
-    print("Command-line arguments:")
-    for arg in args:
-        print(arg)
+    file_path = sys.argv[1]
 
-    file_path = args[0]
-    tasks = read_todo_file(file_path)
+    """Archivo vacio"""
+    if len(sys.argv) == 2:
+        return
 
-    print("\nTasks:")
-    for task in tasks:
-        print(task)
+    """Comando"""
+    command = sys.argv[2]
+
+    if command == "view":
+        tasks = read_todo_file(file_path)
+        print("Tasks:")
+        for task in tasks:
+            print(task)
+
+    elif command == "add":
+        if len(sys.argv) < 4:
+            print('Task description required for "add".')
+            return
+        task_description = sys.argv[3]
+        tasks = read_todo_file(file_path)
+        tasks.append(task_description)
+        write_todo_file(file_path, tasks)
+        print(f'Task "{task_description}" added.')
+
+    elif command == "remove":
+        if len(sys.argv) < 4:
+            print('Task description required for "remove".')
+            return
+        task_description = sys.argv[3]
+        tasks = read_todo_file(file_path)
+        if task_description in tasks:
+            tasks.remove(task_description)
+            write_todo_file(file_path, tasks)
+            print(f'Task "{task_description}" removed.')
+        else:
+            print(f'Task "{task_description}" not found.')
+
+    elif command == "--help":
+        print("Usage: python main.py <file_path> <command> [arguments]...")
+
+    else:
+        print("Command not found!")
 
 if __name__ == "__main__":
     main()
