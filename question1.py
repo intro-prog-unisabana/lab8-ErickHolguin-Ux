@@ -18,3 +18,15 @@ def main():
         print("Error: Invalid input! Enter numeric values only.")
         return
     
+    total_load = float(total_arg)
+    num_supports = int(num_supports_arg)
+
+    if num_supports == 0:
+        print("Error: Cannot divide by zero! Supports must be greater than zero.")
+        return
+    
+    load_per_support = total_load / num_supports
+    print(f"Load per support point: {load_per_support:.2f} N")
+
+if __name__ == "__main__":
+    main()
