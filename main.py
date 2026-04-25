@@ -51,6 +51,9 @@ def main():
             task_description = sys.argv[3]
             tasks.append(task_description)
             print(f'Task "{task_description}" added.')
+            print("Tasks:")
+            for task in tasks:
+                print(task)
 
         elif command == "remove":
             if len(sys.argv) < 4:
