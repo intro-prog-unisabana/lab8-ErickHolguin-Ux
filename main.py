@@ -7,11 +7,12 @@ from todo_manager import read_todo_file, write_todo_file
 
 def main():
     try:
-        """Sin argumentos"""
+        """Sin argumento"""
         if len(sys.argv) < 2:
-            raise IndexError("Insufficient arguments provided!")
+            print("Insufficient arguments provided!")
+            return
 
-        """Apartado Help"""
+        """Ayuda"""
         if sys.argv[1] == "--help":
             print(
                 "Usage: python main.py <file_path> <command> [arguments]...\n"
@@ -32,12 +33,12 @@ def main():
         file_path = sys.argv[1]
         tasks = read_todo_file(file_path)
 
-        """Archivo Vacio"""
+        """Archivo vacio"""
         if len(sys.argv) == 2:
             write_todo_file(file_path, tasks)  # asegura que el archivo exista
             return
 
-        """Uso del comando"""
+        """Main Comando"""
         command = sys.argv[2]
 
         if command == "view":
@@ -47,7 +48,8 @@ def main():
 
         elif command == "add":
             if len(sys.argv) < 4:
-                raise IndexError('Task description required for "add".')
+                print('Task description required for "add".')
+                return
             task_description = sys.argv[3]
             tasks.append(task_description)
             print(f'Task "{task_description}" added.')
@@ -57,21 +59,27 @@ def main():
 
         elif command == "remove":
             if len(sys.argv) < 4:
-                raise IndexError('Task description required for "remove".')
+                print('Task description required for "remove".')
+                return
             task_description = sys.argv[3]
             if task_description in tasks:
                 tasks.remove(task_description)
                 print(f'Task "{task_description}" removed.')
             else:
                 print(f'Task "{task_description}" not found.')
+            print("Tasks:")
+            for task in tasks:
+                print(task)
 
         else:
-            raise ValueError("Command not found!")
+            print("Command not found!")
+            return
 
-        """Adjunta todo lo guardado"""
+        """Union de lo guardado"""
         write_todo_file(file_path, tasks)
 
-    except (IndexError, ValueError) as e:
+    except Exception as e:
+        """Error Insesperado"""
         print(e)
 
 if __name__ == "__main__":
