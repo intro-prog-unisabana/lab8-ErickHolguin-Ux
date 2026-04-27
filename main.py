@@ -35,7 +35,7 @@ def main():
 
         """Archivo vacio"""
         if len(sys.argv) == 2:
-            write_todo_file(file_path, tasks)  # asegura que el archivo exista
+            write_todo_file(file_path, tasks)  
             return
 
         """Main Comando"""
