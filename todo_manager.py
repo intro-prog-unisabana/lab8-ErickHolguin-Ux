@@ -4,6 +4,7 @@
 def read_todo_file(file_path):
     """Reads tasks from a file. Returns a list of tasks."""
     # TODO: Implementar manejo de FileNotFoundError según README.md
+    
     try:
         with open(file_path, 'r') as file:
             return file.read().splitlines()
@@ -15,3 +16,7 @@ def read_todo_file(file_path):
 def write_todo_file(file_path, tasks):
     """Writes tasks to a file, one per line."""
     # TODO: Implementar escritura de tareas según README.md
+   
+    content = "\n".join(tasks) + "\n" if tasks else ""
+    with open(file_path, "w") as file:  # sin encoding
+        file.write(content)

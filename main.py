@@ -7,10 +7,12 @@ from todo_manager import read_todo_file, write_todo_file
 
 def main():
     try:
+        """No brinda Argumentos"""
         if len(sys.argv) < 2:
             print("Insufficient arguments provided!")
             return
 
+        """Información de ayuda"""
         if sys.argv[1] == "--help":
             print(
                 "Usage: python main.py <file_path> <command> [arguments]...\n"
@@ -31,10 +33,12 @@ def main():
         file_path = sys.argv[1]
         tasks = read_todo_file(file_path)
 
+        """Archivo vacio"""
         if len(sys.argv) == 2:
             write_todo_file(file_path, tasks)  
             return
 
+        """Programa main y comandos"""
         i = 2
         while i < len(sys.argv):
             command = sys.argv[i]
@@ -52,6 +56,9 @@ def main():
                 task_description = sys.argv[i + 1]
                 tasks.append(task_description)
                 print(f'Task "{task_description}" added.')
+
+                """Guarda inmediatamente al finalizar"""
+                write_todo_file(file_path, tasks)
                 i += 2
 
             elif command == "remove":
@@ -64,15 +71,17 @@ def main():
                     print(f'Task "{task_description}" removed.')
                 else:
                     print(f'Task "{task_description}" not found.')
+
+                """Guarda inmediatamente al finalizar"""
+                write_todo_file(file_path, tasks)
                 i += 2
 
             else:
                 print("Command not found!")
                 return
-
-        write_todo_file(file_path, tasks)
-
+    
     except Exception as e:
+        """Error Inesperado"""
         print(e)
 
 if __name__ == "__main__":
