@@ -7,12 +7,10 @@ from todo_manager import read_todo_file, write_todo_file
 
 def main():
     try:
-        """Sin argumento"""
         if len(sys.argv) < 2:
             print("Insufficient arguments provided!")
             return
 
-        """Ayuda"""
         if sys.argv[1] == "--help":
             print(
                 "Usage: python main.py <file_path> <command> [arguments]...\n"
@@ -33,53 +31,48 @@ def main():
         file_path = sys.argv[1]
         tasks = read_todo_file(file_path)
 
-        """Archivo vacio"""
         if len(sys.argv) == 2:
             write_todo_file(file_path, tasks)  
             return
 
-        """Main Comando"""
-        command = sys.argv[2]
+        i = 2
+        while i < len(sys.argv):
+            command = sys.argv[i]
 
-        if command == "view":
-            print("Tasks:")
-            for task in tasks:
-                print(task)
+            if command == "view":
+                print("Tasks:")
+                for task in tasks:
+                    print(task)
+                i += 1
 
-        elif command == "add":
-            if len(sys.argv) < 4:
-                print('Task description required for "add".')
-                return
-            task_description = sys.argv[3]
-            tasks.append(task_description)
-            print(f'Task "{task_description}" added.')
-            print("Tasks:")
-            for task in tasks:
-                print(task)
+            elif command == "add":
+                if i + 1 >= len(sys.argv):
+                    print('Task description required for "add".')
+                    return
+                task_description = sys.argv[i + 1]
+                tasks.append(task_description)
+                print(f'Task "{task_description}" added.')
+                i += 2
 
-        elif command == "remove":
-            if len(sys.argv) < 4:
-                print('Task description required for "remove".')
-                return
-            task_description = sys.argv[3]
-            if task_description in tasks:
-                tasks.remove(task_description)
-                print(f'Task "{task_description}" removed.')
+            elif command == "remove":
+                if i + 1 >= len(sys.argv):
+                    print('Task description required for "remove".')
+                    return
+                task_description = sys.argv[i + 1]
+                if task_description in tasks:
+                    tasks.remove(task_description)
+                    print(f'Task "{task_description}" removed.')
+                else:
+                    print(f'Task "{task_description}" not found.')
+                i += 2
+
             else:
-                print(f'Task "{task_description}" not found.')
-            print("Tasks:")
-            for task in tasks:
-                print(task)
+                print("Command not found!")
+                return
 
-        else:
-            print("Command not found!")
-            return
-
-        """Union de lo guardado"""
         write_todo_file(file_path, tasks)
 
     except Exception as e:
-        """Error Insesperado"""
         print(e)
 
 if __name__ == "__main__":
